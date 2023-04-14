@@ -1,6 +1,7 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import axios from 'axios';
 import {QueryClient, QueryClientProvider, useMutation} from "@tanstack/react-query"
+import Cookies from 'js-cookie';
 import {Link, useNavigate} from 'react-router-dom';
 
 
@@ -8,6 +9,18 @@ const queryClient = new QueryClient();
 
 function InfoTest() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const accessToken = Cookies.get('accessToken');
+        axios.get('/auth/accessTokenAuth', {
+            headers: { Authorization: `Bearer ${accessToken}` }
+        })
+            .catch(error => {
+                console.log(error);
+                // 권한이 없으면 홈 페이지로 이동
+                navigate('/');
+            });
+        }, [navigate]);
 
     return (
         <div>

@@ -48,21 +48,19 @@ function Login() {
     }
 
     const sendUserDataMutation = useMutation(() => {
-        return axios.post('/members/login', { email, password })
+        return axios.post('/auth/login', { email, password })
             .then(res=> {
-                console.log(res);
                 const accessToken = res.data.accessToken;
                 const refreshToken = res.data.refreshToken;
-                console.log(accessToken);
-                console.log(refreshToken);
-                Cookies.set('access_token', accessToken);
-                localStorage.setItem('refresh_token', refreshToken);
+                Cookies.set('accessToken', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
             });
     }, {
         onSuccess: (data) => {
             navigate('/');
         },
         onError: (data) => {
+            alert("아이디와 비밀번호를 확인해주세요.");
             console.log("fail", data);
         },
     });

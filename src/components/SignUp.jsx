@@ -3,10 +3,12 @@ import axios from 'axios';
 import {QueryClient, QueryClientProvider, useMutation} from "@tanstack/react-query"
 import validator from "validator";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import {useNavigate} from "react-router-dom";
 
 const queryClient = new QueryClient();
 
 function SignUp() {
+    const navigate = useNavigate();
     const [user, setUser] = useState({
         name: '',
         password: '',
@@ -130,6 +132,7 @@ function SignUp() {
     }, {
         onSuccess: (data) => {
             alert(data.data);
+            navigate("/login");
         },
         onError: (data) => {
             alert(data.response.data);
